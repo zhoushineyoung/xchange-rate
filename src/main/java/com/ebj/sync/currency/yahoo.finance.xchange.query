@@ -1,0 +1,7 @@
+https://developer.yahoo.com/yql/console/?q=show%20tables&env=store://datatables.org/alltableswithkeys#h=select+*+from+yahoo.finance.xchange+where+pair+in+%28%22CNYUSD%22%29
+https://developer.yahoo.com/yql/console/?q=show tables&env=store://datatables.org/alltableswithkeys#h=select * from yahoo.finance.xchange where pair in ("CNYUSD")
+http://query.yahooapis.com/v1/public/yql?q=%s&env=store://datatables.org/alltableswithkeys&format=json&callback=
+
+http://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.xchange where pair in ("USDEUR", "USDJPY", "USDBGN", "USDCZK", "USDDKK", "USDGBP", "USDHUF", "USDLTL", "USDLVL", "USDPLN", "USDRON", "USDSEK", "USDCHF", "USDNOK", "USDHRK", "USDRUB", "USDTRY", "USDAUD", "USDBRL", "USDCAD", "USDCNY", "USDHKD", "USDIDR", "USDILS", "USDINR", "USDKRW", "USDMXN", "USDMYR", "USDNZD", "USDPHP", "USDSGD", "USDTHB", "USDZAR", "USDISK")&env=store://datatables.org/alltableswithkeys
+http://finance.yahoo.com/d/quotes.csv?e=.csv&f=c4l1&s=EURUSD=X,GBPUSD=X
+http://query.yahooapis.com/v1/public/yql?q=select+id%2CRate+from+yahoo.finance.xchange+where+pair+in+%28%22USDCNY%22%29&env=store://datatables.org/alltableswithkeys&format=json&callback=
