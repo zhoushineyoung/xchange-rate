@@ -19,6 +19,7 @@ import com.pholser.util.properties.PropertyBinder;
 public class ConfigManager {
     private static Logger logger = Logger.getLogger(ConfigManager.class);
     
+    // private String filePath = "config.properties";
     private String filePath = "src/main/resources/config.properties";
     private static ConfigurationSchema config = null;
     private PropertyBinder<ConfigurationSchema> binder = PropertyBinder.forType(ConfigurationSchema.class);
@@ -70,6 +71,8 @@ public class ConfigManager {
         if (null == config) {
             try {
                 config = binder.bind(new File(this.filePath));
+                // config = binder.bind(ClassLoader.getSystemResourceAsStream(filePath));
+                
             } catch (IOException e) {
                 logger.info("", e);
             }

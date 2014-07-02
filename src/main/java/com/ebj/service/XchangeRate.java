@@ -27,23 +27,18 @@ public class XchangeRate implements HttpHandler {
     final static String mimeType = "text/json";
 
     public void handle(HttpExchange httpExchange) throws IOException {
-        /*
-         * http://localhost:9099/report?report=ok 上述查询的 query = "report=ok"
-         */
         String query = httpExchange.getRequestURI().getQuery();
-        // QueryExecuteThreadPool.initCustomerPool();
-
         String params = HttpUtil.parseUrlParams(query).get("params");
-        
-        logger.info("[" + httpExchange.getRequestMethod() + "] Request: " + query);
-        System.out.println(params);
-        
         String response = "";
         
-        // String sql = "SELECT * FROM YAHOO_XCHANGE_RATE";
-//        String sql = "SELECT %s FROM %s";
+        logger.info("[" + httpExchange.getRequestMethod() + "] Request: " + query);
+        
+        /* 
+         * String sql = "SELECT * FROM YAHOO_XCHANGE_RATE";
+         * String sql = "SELECT %s FROM %s";
+         */ 
         H2DBDao h2dbDao = H2DBDao.getInstance();
-        // h2dbDao.setTableName("YAHOO_XCHANGE_RATE");
+        /* h2dbDao.setTableName("YAHOO_XCHANGE_RATE"); */
         try {
             QueryParam queryParam = HttpUtil.parseParams(params);
             

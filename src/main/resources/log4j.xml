@@ -4,7 +4,7 @@
 	debug="true">
 
 	<appender name="info-out" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/tmp/jetty-h2db-demo/jetty-h2db-demo.info.log" />
+		<param name="File" value="/mnt/yeahmobi-finance/xchange-rate.info.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%-5p] [%d] %c:%L - %m%n" />
@@ -17,7 +17,7 @@
 	</appender>
 
 	<appender name="error-out" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/tmp/jetty-h2db-demo/jetty-h2db-demo.error.log" />
+		<param name="File" value="/mnt/yeahmobi-finance/xchange-rate.error.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<param name="Threshold" value="error" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -25,9 +25,8 @@
 		</layout>
 	</appender>
 
-
 	<appender name="debug-out" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/tmp/jetty-h2db-demo/jetty-h2db-demo.debug.log" />
+		<param name="File" value="/mnt/yeahmobi-finance/xchange-rate.debug.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%-5p] [%d] %c:%L - %m%n" />

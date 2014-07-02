@@ -84,10 +84,10 @@ public class H2DBDao implements DBBaseDaoI {
             }
         }
         
-//        sql_template_table_drop = config.getSQLTmplTableDrop(this.tableName); // property-binder framework bug: string 'DROP TABLE IF EXISTS %s' converts to 'DROP TABLE IF EXISTS null'
-//        sql_template_table_create =config.getSQLTmplTableCreate(this.tableName, __COLUM_NAMES);
-//        sql_template_table_insert_or_update = config.getSQLTmplInsertOrUpdate();
-//        sql_template_table_query = config.getSQLTmplQuery(colums, tableName);
+        // sql_template_table_drop = config.getSQLTmplTableDrop(this.tableName); // property-binder framework bug: string 'DROP TABLE IF EXISTS %s' converts to 'DROP TABLE IF EXISTS null'
+        // sql_template_table_create =config.getSQLTmplTableCreate(this.tableName, __COLUM_NAMES);
+        // sql_template_table_insert_or_update = config.getSQLTmplInsertOrUpdate();
+        // sql_template_table_query = config.getSQLTmplQuery(colums, tableName);
     }
 
     public boolean createTable() {
@@ -120,17 +120,6 @@ public class H2DBDao implements DBBaseDaoI {
     	return result;
     }
     
-    // insert data
-//            stat.execute("INSERT INTO TEST VALUES('Hello World')");
-//
-//            ResultSet result = stat.executeQuery("select name from test ");
-//            int i = 1;
-//            while (result.next()) {
-//                System.out.println(i++ + ":" + result.getString("name"));
-//            }
-//            result.close();
-//            stat.close();
-//            conn.close();
     private boolean sqlExecutor(String sql) {
         boolean result = false;
         if (null != this.stmt && !Strings.isNullOrEmpty(sql)) {
@@ -308,68 +297,5 @@ public class H2DBDao implements DBBaseDaoI {
 
     public H2DBService getH2dbService() {
         return h2dbService;
-    }
-
-    public static void main(String[] args) {
-        List<String> list = new ArrayList<String>();
-        
-        H2DBDao h2dbDao = H2DBDao.getInstance();
-        boolean res = h2dbDao.createTable("YAHOO_XCHANGE_RATE");
-        String sql = "SELECT * FROM YAHOO_XCHANGE_RATE";
-        boolean duIstOrUpdt = h2dbDao.doInsertOrUpdate();
-        
-        if (duIstOrUpdt) {
-            ResultSet resultSet = h2dbDao.queryExecutor(sql);
-            
-            try {
-                String[] params = {"ID","CURRENCY_FROM","CURRENCY_TO","RATE_FROM_TO","RATE_USD_TO","IS_DELETED","LAST_UPDATE_TIME"};
-                while (resultSet.next()) {
-                    String str = "";
-                    
-                    for (int i = 0; i < params.length; i++) {
-                        str += resultSet.getObject(params[i].toString());
-                        if (i != params.length - 1 ) {
-                            str += ",";
-                        }
-                        
-                    }
-                    list.add(str);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }finally{
-                // ...
-            }
-        }
-//        String sql2 = "CREATE TABLE currency_exchanger(id int(32) unsigned NOT NULL AUTO_INCREMENT,rrate decimal(10,4) NOT NULL,crate decimal(10,4) NOT NULL,lcurrency varchar(3) NOT NULL,rcurrency varchar(3) NOT NULL,isDeleted tinyint(1) DEFAULT '0',last_update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,PRIMARY KEY (id),UNIQUE KEY currency_exchanger_lcurrency_IDX (lcurrency,rcurrency),KEY lcurrency (lcurrency) USING HASH,KEY rcurrency (rcurrency) USING HASH)";
-        String sql_drop_table = "DROP TABLE IF EXISTS YAHOO_XCHANGE_RATE";
-//        String sql2 = "CREATE TABLE YAHOO_XCHANGE_RATE(ID INT PRIMARY KEY,RRATE DECIMAL NOT NULL,CRATE DECIMAL NOT NULL,LCURRENCY VARCHAR(3) NOT NULL,RCURRENCY VARCHAR(3) NOT NULL,IS_DELETED TINYINT DEFAULT 0,LAST_UPDATE_TIME TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
-        String sql_create_table = "CREATE TABLE YAHOO_XCHANGE_RATE ("
-                + "ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL,"
-                + "CURRENCY_FROM VARCHAR(3) NOT NULL,"
-                + "CURRENCY_TO VARCHAR(3) NOT NULL,"
-                + "RATE_FROM_TO DECIMAL(10,4) NOT NULL,"
-                + "RATE_USD_TO DECIMAL(10,4) NOT NULL,"
-                + "IS_DELETED TINYINT DEFAULT 0,"
-                + "LAST_UPDATE_TIME TIMESTAMP AS CURRENT_TIMESTAMP(),"
-                + "PRIMARY KEY (ID),"
-                + "UNIQUE (CURRENCY_FROM, CURRENCY_TO)"
-                + ");";
-        String sql_insert_datas = "INSERT INTO YAHOO_XCHANGE_RATE "
-                + "(CURRENCY_FROM, CURRENCY_TO, RATE_FROM_TO, RATE_USD_TO) "
-                + "VALUES "
-                + "('DDY','DIY','0.3399','1.12389'),"
-                + "('DDK','DJY','0.5566','2.12389') ";
-        
-//        boolean step_a = h2dbDao.sqlExecutor(sql_drop_table);
-//        boolean step_b = h2dbDao.sqlExecutor(sql_create_table);
-//        boolean step_c = h2dbDao.sqlExecutor(sql_insert_datas);
-//        System.out.println("drop : " + step_a);
-//        System.out.println("create : " + step_b);
-//        System.out.println("insert datas : " + step_c);
-        
-        for (String string : list) {
-            System.out.println(string);
-        }
     }
 }

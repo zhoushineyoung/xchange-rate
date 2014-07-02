@@ -29,10 +29,8 @@ public class EBJHttpServer {
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
             server.createContext("/status", new ServerStatus());
             server.createContext("/xchangeRates", new XchangeRate());
-            System.out.println("isInfoEnabled = " + logger.isInfoEnabled());
-            System.out.println("isDebugEnabled = " + logger.isDebugEnabled());
             server.setExecutor(null); // creates a default executor
-            logger.info("start server[ok, getRates] at port " + String.valueOf(port));
+            logger.info("start server[status, xchangeRates] at port " + String.valueOf(port));
             server.start();
         } catch (IOException e) {
             e.printStackTrace();

@@ -6,10 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -32,8 +29,6 @@ import org.apache.log4j.Logger;
 
 import com.ebj.dao.h2.H2DBDao;
 import com.ebj.domain.AllCurrencies;
-import com.ebj.domain.YahooCurrencyExchanger;
-import com.ebj.domain.yahooxchange.Row;
 import com.ebj.domain.yahooxchange.YahooXchangeRate;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
@@ -97,6 +92,8 @@ public class YahooXchangeSync {
                             yahooXchangeRate = batchQuery(pairs);
                             if (null != yahooXchangeRate) {
                                 yahooXchangeRates.add(yahooXchangeRate);
+                            }else {
+                                logger.info("Get None For Pairs[" + pairs + "].");
                             }
                             
                             stringBuilder.setLength(0); // 重置stringBuilder ，namely 清空 stringBuilder 内容
@@ -238,7 +235,9 @@ public class YahooXchangeSync {
         return null;
     }
 
+    private static AtomicInteger count = new AtomicInteger();
     private void sync() {
+        logger.info("Yahoo Xchange Rates Sync Run [" + count.incrementAndGet() + "] Times, @Time [" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss,sss").format(new Date()) + "].");
         
         Map<String, Double> xchangeRateMap = YahooXchangeSync.getInstance().getAllXchangeRatesAsMap();
         if (null != xchangeRateMap && xchangeRateMap.size() > 0) {
@@ -246,14 +245,10 @@ public class YahooXchangeSync {
             
             h2dbDao.setValue_map(xchangeRateMap);
             h2dbDao.setTableName("YAHOO_XCHANGE_RATE");
-            boolean res = h2dbDao.createTable();
-            boolean doInsert = h2dbDao.doInsert();
-            System.out.println("createTable : " + res);
-            System.out.println("doInsert : " + doInsert);
+            h2dbDao.createTable();
+            h2dbDao.doInsert();
         }
     }
-    
-    private static AtomicInteger count = new AtomicInteger();
     
     public void fire() {
         // sync once when app start up
@@ -272,28 +267,7 @@ public class YahooXchangeSync {
             @Override
             public void run() {
                 sync();
-                logger.info("Yahoo Xchange Rates Sync Run [" + count.incrementAndGet() + "] Times, @Time [" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss,sss").format(new Date()) + "].");
             }
-//        }, calendar.getTime(), TimeUnit.MILLISECONDS.convert(12, TimeUnit.HOURS));
-          }, 1000, 60000);
+        }, calendar.getTime(), TimeUnit.MILLISECONDS.convert(12, TimeUnit.HOURS));
     }
-
-//    public static void main(String[] args) {
-
-//        List<YahooXchangeRate> yahooXchangeRates = getAllXchangeRates();
-//        if (yahooXchangeRates.size() > 0) {
-//            System.out.println("yahooXchangeRates.size = " + yahooXchangeRates.size());
-//            for (YahooXchangeRate yahooXchangeRate : yahooXchangeRates) {
-//                System.out.println("Rates Count = " + yahooXchangeRate.getQuery().getCount());
-//            }
-//        }
-//        
-//        Map<String, Double> xchangeRateMap = getAllXchangeRatesAsMap();
-//        System.out.println("Datas Num = " + xchangeRateMap.keySet().size());
-//        for (Entry<String, Double> entry : xchangeRateMap.entrySet()) {
-//            System.out.println(entry.getKey() + " - " + entry.getValue());
-//        }
-//    }
-    
-    
 }

@@ -45,6 +45,9 @@ public interface ConfigurationSchema {
     @BoundProperty("h2.sql.table.query")
     String getSQLTmplQuery(String columsName, String tableName);
 
+    @BoundProperty("exchange.currencies.name")
+    String getCurrenciesName();
+    
     Long wrappedLongProperty();
 
     char[] charArrayProperty();

@@ -1,7 +1,6 @@
 package com.ebj.h2db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +21,7 @@ public class H2DBService {
     
 	private Server server;
 	private String port = "3366";
-	private String dbdir = "./h2db/sample/dbs";
+	private String dbdir = "/h2db/sample/dbs";//d:/data/yeahmobi-datasystem/finance
 	private String table = "currency_xchang_rate";
 	private String user = "sa";
 	private String password = "martinwin@2014";
@@ -125,17 +124,7 @@ public class H2DBService {
         String conn_str = "";
         if (!Strings.isNullOrEmpty(dbdir) && !Strings.isNullOrEmpty(__H2_JDBC_HEADER)) {
             conn_str = __H2_JDBC_HEADER + dbdir;
-            System.out.println("conn_str = " + conn_str);
         }
         return conn_str;
     }
-	
-	public static void main(String[] args) {
-		H2DBService h2 = H2DBService.getInstance();
-		h2.startServer();
-		h2.useH2();
-		// h2.stopServer();
-		System.out.println("==END==");
-	}
-
 }
